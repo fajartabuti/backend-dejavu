@@ -1,0 +1,30 @@
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+table.mat-table{
+  white-space: nowrap;
+  border-collapse: collapse;
+  border-top: 1px solid #dee2e6;
+}
+
+.mat-elevation-z8{
+  height: auto;
+  max-height: 60vh;
+  overflow-x: auto;
+  box-shadow: none;
+}
+
+td.mat-cell {
+  /* row padding */
+  padding: 12px 7px;
+}
+
+th.mat-header-cell {
+  /* row padding */
+  padding: .75rem;
+  /* row border */
+  border-bottom: 2px solid #dee2e6;
+  font-weight: bold;
+  font-size: small;
+}
