@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from '@angular/common';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material';
+import { MatChipInputEvent, MatDialogRef } from '@angular/material';
 import { BookService } from './../../shared/book.service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { DataService } from '../../shared/data.service';
 
 export interface Language {
   name: string;
@@ -17,6 +18,7 @@ export interface Language {
 })
 
 export class EditBookComponent implements OnInit {
+  data = this.dataService.getData();   
   visible = true;
   selectable = true;
   removable = true;
@@ -33,17 +35,21 @@ export class EditBookComponent implements OnInit {
   }
 
   constructor(
+    private dataService:DataService,
     public fb: FormBuilder,    
     private location: Location,
     private bookApi: BookService,
     private actRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public dialogRef: MatDialogRef<'editDialog'>
   ) { 
-    var id = this.actRoute.snapshot.paramMap.get('id');
-    this.bookApi.GetBook(id).valueChanges().subscribe(data => {
-      this.languageArray = data.languages;
-      this.editBookForm.setValue(data);
-    })
+    if(this.data){
+      var id = this.data.$key;
+      this.bookApi.GetBook(id).valueChanges().subscribe(data => {
+        this.languageArray = data.languages;
+        this.editBookForm.setValue(data);
+      })
+    }
   }
 
   /* Update form */
@@ -99,13 +105,24 @@ export class EditBookComponent implements OnInit {
     this.location.back();
   }
 
+  /* Reset form */
+  resetForm() {
+    this.languageArray = [];
+    this.editBookForm.reset();
+    Object.keys(this.editBookForm.controls).forEach(key => {
+      this.editBookForm.controls[key].setErrors(null)
+    });
+  }
+
   /* Submit book */
   updateBook() {
     var id = this.actRoute.snapshot.paramMap.get('id');
-    if(window.confirm('Are you sure you wanna update?')){
+    if (this.editBookForm.valid){
+      if(window.confirm('Are you sure you wanna update?')){
+        this.dialogRef.close('test');
         this.bookApi.UpdateBook(id, this.editBookForm.value);
-      this.router.navigate(['books-list']);
+        this.router.navigate(['books-list']);
+      }
     }
   }
-
 }

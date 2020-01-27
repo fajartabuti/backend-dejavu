@@ -6,7 +6,7 @@ import { BookListComponent } from './components/book-list/book-list.component';
 import { EditBookComponent } from './components/edit-book/edit-book.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'add-book' },
+  { path: '', pathMatch: 'full', redirectTo: 'books-list' },
   { path: 'add-book', component: AddBookComponent },
   { path: 'edit-book/:id', component: EditBookComponent },
   { path: 'books-list', component: BookListComponent }

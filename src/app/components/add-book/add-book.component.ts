@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material';
+import { MatChipInputEvent, MatDialogRef } from '@angular/material';
 import { BookService } from './../../shared/book.service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
@@ -33,7 +33,8 @@ export class AddBookComponent implements OnInit {
 
   constructor(
     public fb: FormBuilder,
-    private bookApi: BookService
+    private bookApi: BookService,
+    public dialogRef: MatDialogRef<'addDialog'>
   ) { }
 
   /* Remove dynamic languages */
@@ -96,6 +97,7 @@ export class AddBookComponent implements OnInit {
   /* Submit book */
   submitBook() {
     if (this.bookForm.valid){
+      this.dialogRef.close('test');
       this.bookApi.AddBook(this.bookForm.value)
       // this.resetForm();
     }

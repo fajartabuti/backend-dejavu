@@ -22,7 +22,7 @@ mat-sidenav mat-icon{margin-right:12px;}
 mat-radio-group mat-radio-button{margin-left:5px;}
 .button-wrapper button{margin-right:5px;}
 table.mat-table,table{width:100%;}
-.inner-wrapper{padding:15px 0 130px;width:100%;}
+.inner-wrapper{padding:20px 0 20px;width:100%;}
 .inner-wrapper mat-card{display:inline-block;margin:0 6% 0 0;vertical-align:top;width:44%;}
 .full-wrapper{width:100%;}
 .multiple-items{position:relative;}

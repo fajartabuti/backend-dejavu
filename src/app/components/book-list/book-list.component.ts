@@ -4,6 +4,8 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { BookService } from './../../shared/book.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddBookComponent } from '../add-book/add-book.component';
+import { EditBookComponent } from '../edit-book/edit-book.component';
+import { DataService } from '../../shared/data.service';
 
 @Component({
   selector: 'app-book-list',
@@ -25,6 +27,7 @@ export class BookListComponent implements OnInit{
   ];
   
   constructor(
+    private dataService:DataService,
     private bookApi: BookService,
     public dialog: MatDialog){
     this.bookApi.GetBookList()
@@ -48,8 +51,17 @@ export class BookListComponent implements OnInit{
   ngOnInit() {
   }
 
-  openDialog() {
+  openAddDialog() {
     const dialogRef = this.dialog.open(AddBookComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openEditDialog(e) {
+    this.dataService.setData(e);
+    const dialogRef = this.dialog.open(EditBookComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -65,5 +77,4 @@ export class BookListComponent implements OnInit{
       this.bookApi.DeleteBook(e.$key)
     }
   }
-  
 }
