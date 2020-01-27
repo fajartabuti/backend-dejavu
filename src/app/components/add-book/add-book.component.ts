@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent, MatDialogRef } from '@angular/material';
 import { BookService } from './../../shared/book.service';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 
 export interface Language {
   name: string;
@@ -89,17 +89,32 @@ export class AddBookComponent implements OnInit {
   resetForm() {
     this.languageArray = [];
     this.bookForm.reset();
+    this.submitBookForm();
     Object.keys(this.bookForm.controls).forEach(key => {
       this.bookForm.controls[key].setErrors(null)
     });
   }
 
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      }
+    });
+  }
+
   /* Submit book */
   submitBook() {
-    if (this.bookForm.valid){
+    if (this.bookForm.valid) {
+      console.log('form submitted');
+      this.resetForm();
       this.dialogRef.close('test');
-      this.bookApi.AddBook(this.bookForm.value)
-      // this.resetForm();
+      this.bookApi.AddBook(this.bookForm.value);
+    } else {
+      this.validateAllFormFields(this.bookForm);
     }
   }
 }
