@@ -25,6 +25,7 @@ export class AddBookComponent implements OnInit {
   selectedBindingType: string;
   bookForm: FormGroup;
   BindingType: any = ['Paperback', 'Case binding', 'Perfect binding', 'Saddle stitch binding', 'Spiral binding'];
+  MatchType: any = ['Tournament', 'Scrim'];
 
   ngOnInit() { 
     this.bookApi.GetBookList();
@@ -48,6 +49,10 @@ export class AddBookComponent implements OnInit {
   /* Reactive book form */
   submitBookForm() {
     this.bookForm = this.fb.group({
+      match_type: ['', [Validators.required]],
+      match_title: ['', [Validators.required]],
+      match_date: ['', [Validators.required]],
+      rival_logo: ['', [Validators.required]],
       book_name: ['', [Validators.required]],
       isbn_10: ['', [Validators.required]],
       author_name: ['', [Validators.required]],
@@ -81,6 +86,9 @@ export class AddBookComponent implements OnInit {
   formatDate(e) {
     var convertDate = new Date(e.target.value).toISOString().substring(0, 10);
     this.bookForm.get('publication_date').setValue(convertDate, {
+      onlyself: true
+    })
+    this.bookForm.get('match_date').setValue(convertDate, {
       onlyself: true
     })
   }

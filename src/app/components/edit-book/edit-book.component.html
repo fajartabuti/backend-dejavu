@@ -38,7 +38,7 @@
     
             <!-- Publication date -->
             <mat-form-field>
-              <input matInput readonly [matDatepicker]="picker" placeholder="Publication date"
+              <input matInput readonly (focus)="picker.open()" (click)="picker.open()" [matDatepicker]="picker" placeholder="Publication date"
                 formControlName="publication_date" (dateChange)="formatDate($event)">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>

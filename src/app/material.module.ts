@@ -44,7 +44,12 @@ import {
    MatSnackBarModule,
    MatTabsModule,
    MatTreeModule,
+   MAT_DATE_LOCALE,
+   MAT_DATE_FORMATS,
+   DateAdapter,
 } from '@angular/material';
+import { MomentUtcDateAdapter } from './moment-utc-date-adapter';
+import { MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 @NgModule({
    imports: [
@@ -135,6 +140,9 @@ import {
    ],
    providers: [
       MatDatepickerModule,
+      { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+      { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+      { provide: DateAdapter, useClass: MomentUtcDateAdapter },
    ]
 })
 

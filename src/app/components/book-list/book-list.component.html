@@ -11,7 +11,7 @@
     <!-- No data message -->
     <p *ngIf="BookData.length <= 0" class="no-data">There is no data added yet!</p>
 
-    <div class="container" *ngIf="BookData.length > 0">
+    <div class="container">
         <div class="mat-elevation-z8">
             <table mat-table [dataSource]="dataSource" matSort>
                 <ng-container matColumnDef="$key">

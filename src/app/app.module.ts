@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
 import { BookService } from './shared/book.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +30,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     AngularFireDatabaseModule,
     FormsModule,
     ReactiveFormsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MaterialFileInputModule
   ],
   providers: [BookService],
   bootstrap: [AppComponent],
