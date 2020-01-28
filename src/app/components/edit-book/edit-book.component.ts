@@ -29,6 +29,7 @@ export class EditBookComponent implements OnInit {
   selectedBindingType: string;
   editBookForm: FormGroup;
   BindingType: any = ['Paperback', 'Case binding', 'Perfect binding', 'Saddle stitch binding', 'Spiral binding'];
+  MatchType: any = ['Tournament', 'Scrim'];
 
   ngOnInit() {
     this.updateBookForm();
@@ -46,7 +47,7 @@ export class EditBookComponent implements OnInit {
     if(this.data){
       var id = this.data.$key;
       this.bookApi.GetBook(id).valueChanges().subscribe(data => {
-        this.languageArray = data.languages;
+        // this.languageArray = data.languages;
         this.editBookForm.setValue(data);
       })
     }
@@ -55,13 +56,16 @@ export class EditBookComponent implements OnInit {
   /* Update form */
   updateBookForm(){
     this.editBookForm = this.fb.group({
-      book_name: ['', [Validators.required]],
-      isbn_10: ['', [Validators.required]],
-      author_name: ['', [Validators.required]],
-      publication_date: ['', [Validators.required]],
-      binding_type: ['', [Validators.required]],
-      in_stock: ['Yes'],
-      languages: ['']
+      match_type: ['', [Validators.required]],
+      match_title: ['', [Validators.required]],
+      match_date: ['', [Validators.required]]
+      // book_name: ['', [Validators.required]],
+      // isbn_10: ['', [Validators.required]],
+      // author_name: ['', [Validators.required]],
+      // publication_date: ['', [Validators.required]],
+      // binding_type: ['', [Validators.required]],
+      // in_stock: ['Yes'],
+      // languages: ['']
     })
   }
 
@@ -95,7 +99,10 @@ export class EditBookComponent implements OnInit {
   /* Date */
   formatDate(e) {
     var convertDate = new Date(e.target.value).toISOString().substring(0, 10);
-    this.editBookForm.get('publication_date').setValue(convertDate, {
+    // this.editBookForm.get('publication_date').setValue(convertDate, {
+    //   onlyself: true
+    // })
+    this.editBookForm.get('match_date').setValue(convertDate, {
       onlyself: true
     })
   }

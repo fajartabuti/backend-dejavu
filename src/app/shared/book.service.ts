@@ -15,13 +15,16 @@ export class BookService {
   /* Create book */
   AddBook(book: Book) {
     this.booksRef.push({
-      book_name: book.book_name,
-      isbn_10: book.isbn_10,
-      author_name: book.author_name,
-      publication_date: book.publication_date,
-      binding_type: book.binding_type,
-      in_stock: book.in_stock,
-      languages: book.languages
+      match_type: book.match_type,
+      match_title: book.match_title,
+      match_date: book.match_date,
+      // book_name: book.book_name,
+      // isbn_10: book.isbn_10,
+      // author_name: book.author_name,
+      // publication_date: book.publication_date,
+      // binding_type: book.binding_type,
+      // in_stock: book.in_stock,
+      // languages: book.languages
     })
     .catch(error => {
       this.errorMgmt(error);
@@ -43,13 +46,16 @@ export class BookService {
   /* Update book */
   UpdateBook(id, book: Book) {
     this.bookRef.update({
-      book_name: book.book_name,
-      isbn_10: book.isbn_10,
-      author_name: book.author_name,
-      publication_date: book.publication_date,
-      binding_type: book.binding_type,
-      in_stock: book.in_stock,
-      languages: book.languages
+      match_type: book.match_type,
+      match_title: book.match_title,
+      match_date: book.match_date,
+      // book_name: book.book_name,
+      // isbn_10: book.isbn_10,
+      // author_name: book.author_name,
+      // publication_date: book.publication_date,
+      // binding_type: book.binding_type,
+      // in_stock: book.in_stock,
+      // languages: book.languages
     })
     .catch(error => {
       this.errorMgmt(error);

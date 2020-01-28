@@ -19,10 +19,13 @@ export class BookListComponent implements OnInit{
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   BookData: any = [];
   displayedColumns: any[] = [
-    '$key',
-    'book_name',
-    'author_name', 
-    'publication_date',
+    // '$key',
+    'match_date',
+    'match_type',
+    'match_title',
+    // 'book_name',
+    // 'author_name', 
+    // 'publication_date',
     'action'
   ];
   
@@ -49,6 +52,10 @@ export class BookListComponent implements OnInit{
   }
 
   ngOnInit() {
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   openAddDialog() {

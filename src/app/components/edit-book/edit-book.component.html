@@ -5,16 +5,47 @@
     <div class="inner-wrapper">
       <form [formGroup]="editBookForm" (ngSubmit)="updateBook()" novalidate>
           <div class="controlers-wrapper">
-            <!-- Book name -->
+
+            <!-- Match Type -->
+            <mat-form-field>
+              <mat-label>Match Type</mat-label>
+              <mat-select [(value)]="selected" formControlName="match_type">
+                <mat-option [value]="matchType" *ngFor="let matchType of MatchType">{{matchType}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="handleError('match_type', 'required')">
+                Match type is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Match title -->
             <mat-form-field class="example-full-width">
+              <input matInput placeholder="Match title" formControlName="match_title">
+              <mat-error *ngIf="handleError('match_title', 'required')">
+                You must provide a<strong> match title</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Match date -->
+            <mat-form-field>
+              <input matInput readonly (focus)="picker.open()" (click)="picker.open()" [matDatepicker]="picker" placeholder="Match date"
+                formControlName="match_date" (dateChange)="formatDate($event)">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="handleError('match_date', 'required')">
+                Match date is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Book name -->
+            <!-- <mat-form-field class="example-full-width">
               <input matInput placeholder="Book name" formControlName="book_name">
               <mat-error *ngIf="handleError('book_name', 'required')">
                 You must provide a<strong>book name</strong>
               </mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
     
             <!-- ISBN -->
-            <mat-form-field class="example-full-width">
+            <!-- <mat-form-field class="example-full-width">
               <input matInput placeholder="ISBN-10" formControlName="isbn_10" pattern="[0-9]*" minlength="10"
                 maxlength="10">
               <mat-error *ngIf="handleError('isbn_10', 'required')">
@@ -26,18 +57,18 @@
               <mat-error *ngIf="handleError('isbn_10', 'minlength')">
                 Your <strong>ISBN</strong> must be 10 digit
               </mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
     
             <!-- Author name -->
-            <mat-form-field class="example-full-width">
+            <!-- <mat-form-field class="example-full-width">
               <input matInput placeholder="Author name" formControlName="author_name">
               <mat-error *ngIf="handleError('author_name', 'required')">
                 You must provide an <strong>author name</strong>
               </mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
     
             <!-- Publication date -->
-            <mat-form-field>
+            <!-- <mat-form-field>
               <input matInput readonly (focus)="picker.open()" (click)="picker.open()" [matDatepicker]="picker" placeholder="Publication date"
                 formControlName="publication_date" (dateChange)="formatDate($event)">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -45,12 +76,12 @@
               <mat-error *ngIf="handleError('publication_date', 'required')">
                 Publication date is required
               </mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
           </div>
     
           <div class="controlers-wrapper">
             <!-- Book binding -->
-            <mat-form-field>
+            <!-- <mat-form-field>
               <mat-label>Binding type</mat-label>
               <mat-select [(value)]="selected" formControlName="binding_type">
                 <mat-option [value]="bindingType" *ngFor="let bindingType of BindingType">{{bindingType}}</mat-option>
@@ -58,19 +89,19 @@
               <mat-error *ngIf="handleError('binding_type', 'required')">
                 Binding type is required
               </mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
     
             <!-- Book stock -->
-            <div class="misc-bottom-padding">
+            <!-- <div class="misc-bottom-padding">
               <mat-label>Available in stock: </mat-label>
               <mat-radio-group aria-label="Select an option" formControlName="in_stock">
                 <mat-radio-button value="Yes">Yes</mat-radio-button>
                 <mat-radio-button value="No">No</mat-radio-button>
               </mat-radio-group>
-            </div>
+            </div> -->
     
             <!-- Add languages -->
-            <mat-form-field class="multiple-items">
+            <!-- <mat-form-field class="multiple-items">
               <mat-chip-list #chipList>
                 <mat-chip *ngFor="let lang of languageArray" [selectable]="selectable" [removable]="removable"
                   (removed)="remove(lang)">
@@ -84,7 +115,7 @@
               <i class="material-icons tooltip-info" matTooltip="Enter item name and press enter to add multiple items">
                 info
               </i>
-            </mat-form-field>
+            </mat-form-field> -->
           </div>
       </form>
     </div>

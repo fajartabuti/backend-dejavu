@@ -51,15 +51,15 @@ export class AddBookComponent implements OnInit {
     this.bookForm = this.fb.group({
       match_type: ['', [Validators.required]],
       match_title: ['', [Validators.required]],
-      match_date: ['', [Validators.required]],
-      rival_logo: ['', [Validators.required]],
-      book_name: ['', [Validators.required]],
-      isbn_10: ['', [Validators.required]],
-      author_name: ['', [Validators.required]],
-      publication_date: ['', [Validators.required]],
-      binding_type: ['', [Validators.required]],
-      in_stock: ['Yes'],
-      languages: [this.languageArray]
+      match_date: ['', [Validators.required]]
+      // rival_logo: ['', [Validators.required]],
+      // book_name: ['', [Validators.required]],
+      // isbn_10: ['', [Validators.required]],
+      // author_name: ['', [Validators.required]],
+      // publication_date: ['', [Validators.required]],
+      // binding_type: ['', [Validators.required]],
+      // in_stock: ['Yes'],
+      // languages: [this.languageArray]
     })
   }
 
@@ -85,9 +85,9 @@ export class AddBookComponent implements OnInit {
   /* Date */
   formatDate(e) {
     var convertDate = new Date(e.target.value).toISOString().substring(0, 10);
-    this.bookForm.get('publication_date').setValue(convertDate, {
-      onlyself: true
-    })
+    // this.bookForm.get('publication_date').setValue(convertDate, {
+    //   onlyself: true
+    // })
     this.bookForm.get('match_date').setValue(convertDate, {
       onlyself: true
     })
@@ -118,9 +118,9 @@ export class AddBookComponent implements OnInit {
   submitBook() {
     if (this.bookForm.valid) {
       console.log('form submitted');
-      this.resetForm();
       this.dialogRef.close('test');
       this.bookApi.AddBook(this.bookForm.value);
+      this.resetForm();
     } else {
       this.validateAllFormFields(this.bookForm);
     }
