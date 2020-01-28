@@ -6,20 +6,25 @@ import { AppComponent } from './app.component';
 import { AddBookComponent } from './components/add-book/add-book.component';
 import { EditBookComponent } from './components/edit-book/edit-book.component';
 import { BookListComponent } from './components/book-list/book-list.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from 'src/environments/environment';
 import { BookService } from './shared/book.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { FileSizePipe } from './file-size.pipe';
 @NgModule({
   declarations: [
     AppComponent,
     AddBookComponent,
     EditBookComponent,
-    BookListComponent
+    BookListComponent,
+    FileUploadComponent,
+    FileSizePipe
   ],
   imports: [
     BrowserModule,
@@ -28,6 +33,7 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     AngularMaterialModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
+    AngularFireStorageModule,
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,

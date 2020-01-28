@@ -3,7 +3,9 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent, MatDialogRef } from '@angular/material';
 import { BookService } from './../../shared/book.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
-
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { tap, finalize } from 'rxjs/operators';
 export interface Language {
   name: string;
 }
@@ -14,6 +16,13 @@ export interface Language {
   styleUrls: ['./add-book.component.css']
 })
 export class AddBookComponent implements OnInit {
+  // Main task 
+  task: AngularFireUploadTask;
+  // Progress monitoring
+  percentage: Observable<number>;
+  snapshot: Observable<any>;
+  // Download URL
+  downloadURL: Observable<string>;
   optionValue;
   visible = true;
   selectable = true;
@@ -27,6 +36,7 @@ export class AddBookComponent implements OnInit {
   bookForm: FormGroup;
   BindingType: any = ['Paperback', 'Case binding', 'Perfect binding', 'Saddle stitch binding', 'Spiral binding'];
   MatchType: any = ['Tournament', 'Scrim'];
+  path: string;
 
   ngOnInit() { 
     this.bookApi.GetBookList();
@@ -34,6 +44,7 @@ export class AddBookComponent implements OnInit {
   }
 
   constructor(
+    private storage: AngularFireStorage, 
     public fb: FormBuilder,
     private bookApi: BookService,
     public dialogRef: MatDialogRef<'addDialog'>
@@ -52,8 +63,8 @@ export class AddBookComponent implements OnInit {
     this.bookForm = this.fb.group({
       match_type: ['', [Validators.required]],
       match_title: ['', [Validators.required]],
-      match_date: ['', [Validators.required]]
-      // rival_logo: ['', [Validators.required]],
+      match_date: ['', [Validators.required]],
+      rival_logo: ['',],
       // book_name: ['', [Validators.required]],
       // isbn_10: ['', [Validators.required]],
       // author_name: ['', [Validators.required]],
@@ -117,6 +128,7 @@ export class AddBookComponent implements OnInit {
 
   /* Submit book */
   submitBook() {
+    this.bookForm.value.rival_logo = this.path;
     if (this.bookForm.valid) {
       console.log('form submitted');
       this.dialogRef.close('test');
@@ -125,5 +137,43 @@ export class AddBookComponent implements OnInit {
     } else {
       this.validateAllFormFields(this.bookForm);
     }
+  }
+
+  startUpload(event: FileList) {
+    console.log(event);
+    // The File object
+    const file = event.item(0)
+
+    // Client-side validation example
+    if (file.type.split('/')[0] !== 'image') { 
+      console.error('unsupported file type :( ')
+      return;
+    }
+
+    // The storage path
+    this.path = `test/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.storage.ref(this.path);
+    // Totally optional metadata
+    const customMetadata = { app: 'My AngularFire-powered PWA!' };
+    // The main task
+    this.task = this.storage.upload(this.path, file, { customMetadata })
+    // Progress monitoring
+    this.percentage = this.task.percentageChanges();
+    this.snapshot   = this.task.snapshotChanges().pipe(
+      // The file's download URL
+      finalize(() => this.downloadURL = fileRef.getDownloadURL()),
+      tap(snap => {
+        console.log(snap)
+        // if (snap.bytesTransferred === snap.totalBytes) {
+        //   // Update firestore on completion
+        //   this.db.collection('photos').add( { path: this.path, size: snap.totalBytes })
+        // }
+      })
+    )
+  }
+
+  // Determines if the upload task is active
+  isActive(snapshot) {
+    return snapshot.state === 'running' && snapshot.bytesTransferred < snapshot.totalBytes
   }
 }

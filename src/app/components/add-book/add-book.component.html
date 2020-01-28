@@ -19,7 +19,7 @@
             </mat-form-field>
 
             <!-- Match title -->
-            <mat-form-field class="example-full-width" *ngIf="optionValue != 'Tournament'">
+            <mat-form-field class="example-full-width">
               <input matInput placeholder="Match title" formControlName="match_title">
               <mat-error *ngIf="handleError('match_title', 'required')">
                 You must provide a<strong> match title</strong>
@@ -38,14 +38,12 @@
             </mat-form-field>
 
             <!-- Rival logo -->
-            <!-- <mat-form-field appearance="outline">
-              <mat-label>Rival logo</mat-label>
-              <ngx-mat-file-input [accept]="'.jpg,.png,.jpeg'" #removableInput formControlName="rival_logo" placeholder="Rival logo"></ngx-mat-file-input>
-              <mat-icon matSuffix>crop_original</mat-icon>
-              <button mat-icon-button matSuffix *ngIf="!removableInput.empty" (click)="removableInput.clear($event)">
-                <mat-icon>clear</mat-icon>
-              </button>
-            </mat-form-field> -->
+            <mat-form-field appearance="outline" *ngIf="optionValue != 'Tournament' || ''">
+              <mat-label>upload rival logo</mat-label>
+              <ngx-mat-file-input [accept]="'.jpg,.png,.jpeg'" #removableInput formControlName="rival_logo" (change)="startUpload($event.target.files)">
+              </ngx-mat-file-input>
+              <mat-icon matSuffix>cloud_upload</mat-icon>
+            </mat-form-field>
 
             <!-- Book name -->
             <!-- <mat-form-field class="example-full-width">
@@ -91,6 +89,32 @@
           </div>
         
           <div class="controlers-wrapper">
+            <div *ngIf="percentage | async as pct">
+              <mat-progress-bar mode="determinate" [value]="pct" max="100"></mat-progress-bar>
+              {{ pct | number }}%
+            </div>
+            
+            <div *ngIf="(snapshot | async) as snap">
+              {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }} 
+            
+              <div *ngIf="downloadURL | async as url">
+                <h3>Upload complete, click submit!</h3>
+                <img [src]="url"><br>
+                <!-- <a [href]="url" target="_blank" rel="noopener">Download Me!</a> -->
+              </div> 
+              <hr>
+              
+              <button (click)="task.pause()" mat-icon-button [disabled]="!isActive(snap)">
+                  <mat-icon>pause</mat-icon>
+              </button>
+              <button (click)="task.cancel()" mat-icon-button [disabled]="!isActive(snap)">
+                  <mat-icon>close</mat-icon>
+              </button>
+              <button (click)="task.resume()" mat-icon-button [disabled]="!(snap?.state === 'paused')">
+                  <mat-icon>play_arrow</mat-icon>
+              </button>
+            
+            </div>
             <!-- Book binding -->
             <!-- <mat-form-field>
               <mat-label>Binding type</mat-label>

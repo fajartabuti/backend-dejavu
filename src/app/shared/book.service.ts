@@ -18,6 +18,7 @@ export class BookService {
       match_type: book.match_type,
       match_title: book.match_title,
       match_date: book.match_date,
+      rival_logo: book.rival_logo,
       // book_name: book.book_name,
       // isbn_10: book.isbn_10,
       // author_name: book.author_name,

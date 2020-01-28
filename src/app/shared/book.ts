@@ -3,6 +3,7 @@ export interface Book {
     match_type: string;
     match_title: string;
     match_date: Date;
+    rival_logo: string;
     // book_name: string;
     // isbn_10: number;
     // author_name: string
