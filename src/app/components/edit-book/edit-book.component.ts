@@ -18,6 +18,7 @@ export interface Language {
 })
 
 export class EditBookComponent implements OnInit {
+  optionValue;
   data = this.dataService.getData();   
   visible = true;
   selectable = true;

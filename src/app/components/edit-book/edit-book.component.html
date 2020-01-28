@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Install Angular</h2>
+<h2 mat-dialog-title>Edit Match</h2>
 <mat-card>
   <mat-dialog-content #editDialog class="mat-typography">
     <!-- Book form -->
@@ -9,7 +9,7 @@
             <!-- Match Type -->
             <mat-form-field>
               <mat-label>Match Type</mat-label>
-              <mat-select [(value)]="selected" formControlName="match_type">
+              <mat-select [(value)]="selected" [(ngModel)]="optionValue" formControlName="match_type">
                 <mat-option [value]="matchType" *ngFor="let matchType of MatchType">{{matchType}}</mat-option>
               </mat-select>
               <mat-error *ngIf="handleError('match_type', 'required')">
@@ -18,7 +18,7 @@
             </mat-form-field>
 
             <!-- Match title -->
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="example-full-width" *ngIf="optionValue != 'Tournament'">
               <input matInput placeholder="Match title" formControlName="match_title">
               <mat-error *ngIf="handleError('match_title', 'required')">
                 You must provide a<strong> match title</strong>

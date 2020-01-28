@@ -14,6 +14,7 @@ export interface Language {
   styleUrls: ['./add-book.component.css']
 })
 export class AddBookComponent implements OnInit {
+  optionValue;
   visible = true;
   selectable = true;
   removable = true;
