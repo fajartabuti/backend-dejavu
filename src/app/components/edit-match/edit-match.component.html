@@ -56,7 +56,7 @@
             </div>
             
             <div *ngIf="(snapshot | async) as snap">
-              {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }} 
+              <!-- {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }}  -->
               
               <button (click)="task.pause()" mat-icon-button [disabled]="!isActive(snap)">
                   <mat-icon>pause</mat-icon>

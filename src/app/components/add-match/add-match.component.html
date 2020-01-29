@@ -52,12 +52,12 @@
             </div>
             
             <div *ngIf="(snapshot | async) as snap">
-              {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }} 
+              <!-- {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }}  -->
             
               <div *ngIf="downloadURL as url">
                 <h3>Upload complete, click submit!</h3>
                 <img [src]="url"><br>
-                <!-- <a [href]="url" target="_blank" rel="noopener">Download Me!</a> -->
+                
               </div> 
               <hr>
               

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-material7-firebase-crud-app": {
+    "backend-dejavu": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-material7-firebase-crud-app",
+            "outputPath": "dist/backend-dejavu",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -65,18 +65,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-material7-firebase-crud-app:build"
+            "browserTarget": "backend-dejavu:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-material7-firebase-crud-app:build:production"
+              "browserTarget": "backend-dejavu:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-material7-firebase-crud-app:build"
+            "browserTarget": "backend-dejavu:build"
           }
         },
         "test": {
@@ -114,16 +114,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular-material7-firebase-crud-app:serve"
+            "devServerTarget": "backend-dejavu:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "angular-material7-firebase-crud-app:serve:production"
+              "devServerTarget": "backend-dejavu:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "angular-material7-firebase-crud-app"
+  "defaultProject": "backend-dejavu"
 }
