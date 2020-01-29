@@ -10,7 +10,7 @@
             <!-- Match Type -->
             <mat-form-field>
               <mat-label>Match Type</mat-label>
-              <mat-select [(value)]="selected" [(ngModel)]="optionValue" formControlName="match_type">
+              <mat-select [(value)]="selected" formControlName="match_type">
                 <mat-option [value]="matchType" *ngFor="let matchType of MatchType">{{matchType}}</mat-option>
               </mat-select>
               <mat-error *ngIf="handleError('match_type', 'required')">
@@ -38,7 +38,7 @@
             </mat-form-field>
 
             <!-- Rival logo -->
-            <mat-form-field appearance="outline" *ngIf="optionValue != 'Tournament' || ''">
+            <mat-form-field appearance="outline" *ngIf="selected == 'Scrim'">
               <mat-label>upload rival logo</mat-label>
               <ngx-mat-file-input [accept]="'.jpg,.png,.jpeg'" #removableInput formControlName="rival_logo" (change)="startUpload($event.target.files)">
               </ngx-mat-file-input>
@@ -97,7 +97,7 @@
             <div *ngIf="(snapshot | async) as snap">
               {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }} 
             
-              <div *ngIf="downloadURL | async as url">
+              <div *ngIf="downloadURL as url">
                 <h3>Upload complete, click submit!</h3>
                 <img [src]="url"><br>
                 <!-- <a [href]="url" target="_blank" rel="noopener">Download Me!</a> -->

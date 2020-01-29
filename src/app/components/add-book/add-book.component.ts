@@ -23,7 +23,7 @@ export class AddBookComponent implements OnInit {
   snapshot: Observable<any>;
   // Download URL
   downloadURL: Observable<string>;
-  optionValue;
+  public selected: any;
   visible = true;
   selectable = true;
   removable = true;
@@ -64,7 +64,8 @@ export class AddBookComponent implements OnInit {
       match_type: ['', [Validators.required]],
       match_title: ['', [Validators.required]],
       match_date: ['', [Validators.required]],
-      rival_logo: ['',],
+      rival_logo: [''],
+      logo_id: ['']
       // book_name: ['', [Validators.required]],
       // isbn_10: ['', [Validators.required]],
       // author_name: ['', [Validators.required]],
@@ -128,7 +129,8 @@ export class AddBookComponent implements OnInit {
 
   /* Submit book */
   submitBook() {
-    this.bookForm.value.rival_logo = this.path;
+    this.bookForm.value.rival_logo = (this.selected == 'Scrim') ? this.downloadURL : '';
+    this.bookForm.value.logo_id = (this.selected == 'Scrim') ? this.path : '';
     if (this.bookForm.valid) {
       console.log('form submitted');
       this.dialogRef.close('test');
@@ -140,7 +142,6 @@ export class AddBookComponent implements OnInit {
   }
 
   startUpload(event: FileList) {
-    console.log(event);
     // The File object
     const file = event.item(0)
 
@@ -151,7 +152,7 @@ export class AddBookComponent implements OnInit {
     }
 
     // The storage path
-    this.path = `test/${new Date().getTime()}_${file.name}`;
+    this.path = `${new Date().getTime()}`;
     const fileRef = this.storage.ref(this.path);
     // Totally optional metadata
     const customMetadata = { app: 'My AngularFire-powered PWA!' };
@@ -161,9 +162,15 @@ export class AddBookComponent implements OnInit {
     this.percentage = this.task.percentageChanges();
     this.snapshot   = this.task.snapshotChanges().pipe(
       // The file's download URL
-      finalize(() => this.downloadURL = fileRef.getDownloadURL()),
+      // finalize(() => this.downloadURL = fileRef.getDownloadURL()),
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe((url) => {
+          this.downloadURL = url;
+          // this.fileService.insertImageDetails(this.id,this.url);
+          alert('Upload Successful');
+        })
+      }),
       tap(snap => {
-        console.log(snap)
         // if (snap.bytesTransferred === snap.totalBytes) {
         //   // Update firestore on completion
         //   this.db.collection('photos').add( { path: this.path, size: snap.totalBytes })

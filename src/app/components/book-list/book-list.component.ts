@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddBookComponent } from '../add-book/add-book.component';
 import { EditBookComponent } from '../edit-book/edit-book.component';
 import { DataService } from '../../shared/data.service';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-book-list',
@@ -30,6 +31,7 @@ export class BookListComponent implements OnInit{
   ];
   
   constructor(
+    private storage: AngularFireStorage,
     private dataService:DataService,
     private bookApi: BookService,
     public dialog: MatDialog){
@@ -79,6 +81,11 @@ export class BookListComponent implements OnInit{
   deleteBook(index: number, e){
     if(window.confirm('Are you sure?')) {
       const data = this.dataSource.data;
+      
+      if (e.logo_id != ''){
+        this.storage.ref(e.logo_id).delete();
+      }
+      
       data.splice((this.paginator.pageIndex * this.paginator.pageSize) + index, 1);
       this.dataSource.data = data;
       this.bookApi.DeleteBook(e.$key)
