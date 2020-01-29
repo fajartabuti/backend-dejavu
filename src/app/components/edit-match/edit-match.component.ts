@@ -98,7 +98,9 @@ export class EditMatchComponent implements OnInit {
       if(window.confirm('Are you sure you wanna update?')){
         if(this.selected == 'Tournament'){
           console.log(this.editMatchForm.value.logo_id)
-          this.storage.ref(this.editMatchForm.value.logo_id).delete();
+          if(this.editMatchForm.value.logo_id != ''){
+            this.storage.ref(this.editMatchForm.value.logo_id).delete();
+          }
           this.editMatchForm.value.logo_id = '';
           this.editMatchForm.value.rival_logo = '';
           console.log(this.editMatchForm.value)

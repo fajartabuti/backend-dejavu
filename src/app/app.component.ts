@@ -1,5 +1,8 @@
 import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
+import { AuthenticationService } from './auth/auth.service';
+import { User } from './shared/user';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +11,17 @@ import { MatSidenav } from '@angular/material/sidenav';
 })
 
 export class AppComponent implements OnInit{
+  currentUser: User;
   opened = true;
   options: any;
 
   @ViewChild('sidenav', {static: false}) sidenav: MatSidenav;
   
-  constructor() {
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
     this.options = {
       top: 55
     };
@@ -27,6 +35,11 @@ export class AppComponent implements OnInit{
     }
   }
 
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
+  }
+  
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     if (event.target.innerWidth < 767) {

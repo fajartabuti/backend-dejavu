@@ -17,13 +17,22 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { FileSizePipe } from './file-size.pipe';
+import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './auth/auth.guard';
+import { AuthenticationService } from './auth/auth.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BasicAuthInterceptor } from './auth/basic-auth.interceptor';
+import { ErrorInterceptor } from './auth/error.interceptor';
+import { fakeBackendProvider } from './auth/fake-backend';
+
 @NgModule({
   declarations: [
     AppComponent,
     AddMatchComponent,
     EditMatchComponent,
     MatchListComponent,
-    FileSizePipe
+    FileSizePipe,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,13 +42,21 @@ import { FileSizePipe } from './file-size.pipe';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireStorageModule,
+    HttpClientModule,
     AngularFireAuthModule,
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
     MaterialFileInputModule
   ],
-  providers: [MatchService],
+  providers: [
+    MatchService,
+    AuthenticationService, 
+    AuthGuard,
+    fakeBackendProvider,
+    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

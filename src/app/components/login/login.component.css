@@ -1,0 +1,43 @@
+:host {
+    display: flex;
+    justify-content: center;
+    margin: 100px 0px;
+}
+
+form{
+    margin: 0;
+    width: 80%;
+}
+
+button{
+    width: 100%;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+mat-card-title,
+mat-card-content {
+    display: flex;
+    justify-content: center;
+}
+
+.error {
+    padding: 16px;
+    width: 100%;
+    color: red;
+}
+
+mat-card{
+    width: 350px;
+    height: 400px;
+    display: block;
+    margin-left:auto;
+    margin-right:auto;  
+}
+
+
+.example-margin {
+    margin: 0 10px;
+}
