@@ -1,0 +1,84 @@
+<h2 mat-dialog-title>Add New Match</h2>
+<mat-card>
+  <mat-dialog-content #addDialog class="mat-typography">
+    <div class="inner-wrapper">
+      <form [formGroup]="matchForm" (ngSubmit)="submitMatch()" #resetMatchForm="ngForm" novalidate>
+        <!-- Left block -->
+          <div class="controlers-wrapper">
+
+            <!-- Match Type -->
+            <mat-form-field>
+              <mat-label>Match Type</mat-label>
+              <mat-select [(value)]="selected" formControlName="match_type">
+                <mat-option [value]="matchType" *ngFor="let matchType of MatchType">{{matchType}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="handleError('match_type', 'required')">
+                Match type is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Match title -->
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Match title" formControlName="match_title">
+              <mat-error *ngIf="handleError('match_title', 'required')">
+                You must provide a<strong> match title</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Match date -->
+            <mat-form-field>
+              <input matInput readonly (focus)="picker.open()" (click)="picker.open()" [matDatepicker]="picker" placeholder="Match date"
+                formControlName="match_date" (dateChange)="formatDate($event)">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="handleError('match_date', 'required')">
+                Match date is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Rival logo -->
+            <mat-form-field appearance="outline" *ngIf="selected == 'Scrim'">
+              <mat-label>upload rival logo</mat-label>
+              <ngx-mat-file-input [accept]="'.jpg,.png,.jpeg'" #removableInput formControlName="rival_logo" (change)="startUpload($event.target.files)">
+              </ngx-mat-file-input>
+              <mat-icon matSuffix>cloud_upload</mat-icon>
+            </mat-form-field>
+          </div>
+        
+          <div class="controlers-wrapper">
+            <div *ngIf="percentage | async as pct">
+              <mat-progress-bar mode="determinate" [value]="pct" max="100"></mat-progress-bar>
+              {{ pct | number }}%
+            </div>
+            
+            <div *ngIf="(snapshot | async) as snap">
+              {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }} 
+            
+              <div *ngIf="downloadURL as url">
+                <h3>Upload complete, click submit!</h3>
+                <img [src]="url"><br>
+                <!-- <a [href]="url" target="_blank" rel="noopener">Download Me!</a> -->
+              </div> 
+              <hr>
+              
+              <button (click)="task.pause()" mat-icon-button [disabled]="!isActive(snap)">
+                  <mat-icon>pause</mat-icon>
+              </button>
+              <button (click)="task.cancel()" mat-icon-button [disabled]="!isActive(snap)">
+                  <mat-icon>close</mat-icon>
+              </button>
+              <button (click)="task.resume()" mat-icon-button [disabled]="!(snap?.state === 'paused')">
+                  <mat-icon>play_arrow</mat-icon>
+              </button>
+            
+            </div>
+          </div>
+      </form>
+    </div>
+  </mat-dialog-content>
+</mat-card>
+<mat-dialog-actions align="end">
+  <button mat-raised-button (click)="submitMatch()">Submit</button>
+  <button mat-raised-button (click)="resetForm()">Clear</button>
+  <button mat-raised-button mat-dialog-close (click)="resetForm()">Close</button>
+</mat-dialog-actions>

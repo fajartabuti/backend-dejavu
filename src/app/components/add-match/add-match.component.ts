@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent, MatDialogRef } from '@angular/material';
-import { BookService } from './../../shared/book.service';
+import { MatchService } from '../../shared/match.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
@@ -11,17 +11,14 @@ export interface Language {
 }
 
 @Component({
-  selector: 'app-add-book',
-  templateUrl: './add-book.component.html',
-  styleUrls: ['./add-book.component.css']
+  selector: 'app-add-match',
+  templateUrl: './add-match.component.html',
+  styleUrls: ['./add-match.component.css']
 })
-export class AddBookComponent implements OnInit {
-  // Main task 
+export class AddMatchComponent implements OnInit {
   task: AngularFireUploadTask;
-  // Progress monitoring
   percentage: Observable<number>;
   snapshot: Observable<any>;
-  // Download URL
   downloadURL: Observable<string>;
   public selected: any;
   visible = true;
@@ -30,55 +27,37 @@ export class AddBookComponent implements OnInit {
   addOnBlur = true;
   languageArray: Language[] = [];
   @ViewChild('chipList', {static: false}) chipList;
-  @ViewChild('resetBookForm', {static: false}) myNgForm;
+  @ViewChild('resetMatchForm', {static: false}) myNgForm;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   selectedBindingType: string;
-  bookForm: FormGroup;
-  BindingType: any = ['Paperback', 'Case binding', 'Perfect binding', 'Saddle stitch binding', 'Spiral binding'];
-  MatchType: any = ['Tournament', 'Scrim'];
+  matchForm: FormGroup;MatchType: any = ['Tournament', 'Scrim'];
   path: string;
 
   ngOnInit() { 
-    this.bookApi.GetBookList();
-    this.submitBookForm();
+    this.matchApi.GetMatchList();
+    this.submitMatchForm();
   }
 
   constructor(
     private storage: AngularFireStorage, 
     public fb: FormBuilder,
-    private bookApi: BookService,
+    private matchApi: MatchService,
     public dialogRef: MatDialogRef<'addDialog'>
   ) { }
 
-  /* Remove dynamic languages */
-  remove(language: Language): void {
-    const index = this.languageArray.indexOf(language);
-    if (index >= 0) {
-      this.languageArray.splice(index, 1);
-    }
-  }
-
-  /* Reactive book form */
-  submitBookForm() {
-    this.bookForm = this.fb.group({
+  submitMatchForm() {
+    this.matchForm = this.fb.group({
       match_type: ['', [Validators.required]],
       match_title: ['', [Validators.required]],
       match_date: ['', [Validators.required]],
       rival_logo: [''],
       logo_id: ['']
-      // book_name: ['', [Validators.required]],
-      // isbn_10: ['', [Validators.required]],
-      // author_name: ['', [Validators.required]],
-      // publication_date: ['', [Validators.required]],
-      // binding_type: ['', [Validators.required]],
-      // in_stock: ['Yes'],
-      // languages: [this.languageArray]
     })
   }
 
   /* Get errors */
   public handleError = (controlName: string, errorName: string) => {
-    return this.bookForm.controls[controlName].hasError(errorName);
+    return this.matchForm.controls[controlName].hasError(errorName);
   }
 
   /* Add dynamic languages */
@@ -98,21 +77,17 @@ export class AddBookComponent implements OnInit {
   /* Date */
   formatDate(e) {
     var convertDate = new Date(e.target.value).toISOString().substring(0, 10);
-    // this.bookForm.get('publication_date').setValue(convertDate, {
-    //   onlyself: true
-    // })
-    this.bookForm.get('match_date').setValue(convertDate, {
+    this.matchForm.get('match_date').setValue(convertDate, {
       onlyself: true
     })
   }
 
   /* Reset form */
   resetForm() {
-    this.languageArray = [];
-    this.bookForm.reset();
-    this.submitBookForm();
-    Object.keys(this.bookForm.controls).forEach(key => {
-      this.bookForm.controls[key].setErrors(null)
+    this.matchForm.reset();
+    this.submitMatchForm();
+    Object.keys(this.matchForm.controls).forEach(key => {
+      this.matchForm.controls[key].setErrors(null)
     });
   }
 
@@ -127,17 +102,16 @@ export class AddBookComponent implements OnInit {
     });
   }
 
-  /* Submit book */
-  submitBook() {
-    this.bookForm.value.rival_logo = (this.selected == 'Scrim') ? this.downloadURL : '';
-    this.bookForm.value.logo_id = (this.selected == 'Scrim') ? this.path : '';
-    if (this.bookForm.valid) {
+  submitMatch() {
+    this.matchForm.value.rival_logo = (this.selected == 'Scrim') ? this.downloadURL : '';
+    this.matchForm.value.logo_id = (this.selected == 'Scrim') ? this.path : '';
+    if (this.matchForm.valid) {
       console.log('form submitted');
       this.dialogRef.close('test');
-      this.bookApi.AddBook(this.bookForm.value);
+      this.matchApi.AddMatch(this.matchForm.value);
       this.resetForm();
     } else {
-      this.validateAllFormFields(this.bookForm);
+      this.validateAllFormFields(this.matchForm);
     }
   }
 

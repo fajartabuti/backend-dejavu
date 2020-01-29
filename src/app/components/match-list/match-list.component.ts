@@ -1,50 +1,47 @@
-import { Book } from './../../shared/book';
+import { Match } from '../../shared/match';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
-import { BookService } from './../../shared/book.service';
+import { MatchService } from '../../shared/match.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AddBookComponent } from '../add-book/add-book.component';
-import { EditBookComponent } from '../edit-book/edit-book.component';
+import { AddMatchComponent } from '../add-match/add-match.component';
+import { EditMatchComponent } from '../edit-match/edit-match.component';
 import { DataService } from '../../shared/data.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 
 @Component({
-  selector: 'app-book-list',
-  templateUrl: './book-list.component.html',
-  styleUrls: ['./book-list.component.css']
+  selector: 'app-match-list',
+  templateUrl: './match-list.component.html',
+  styleUrls: ['./match-list.component.css']
 })
 
-export class BookListComponent implements OnInit{
-  dataSource: MatTableDataSource<Book>;
+export class MatchListComponent implements OnInit{
+  dataSource: MatTableDataSource<Match>;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-  BookData: any = [];
+  MatchData: any = [];
   displayedColumns: any[] = [
     // '$key',
     'match_date',
     'match_type',
     'match_title',
-    // 'book_name',
-    // 'author_name', 
-    // 'publication_date',
     'action'
   ];
   
   constructor(
     private storage: AngularFireStorage,
     private dataService:DataService,
-    private bookApi: BookService,
+    private matchApi: MatchService,
     public dialog: MatDialog){
-    this.bookApi.GetBookList()
-    .snapshotChanges().subscribe(books => {
-        this.BookData = [];
-        books.forEach(item => {
+    this.matchApi.GetMatchList()
+    .snapshotChanges().subscribe(matches => {
+        this.MatchData = [];
+        matches.forEach(item => {
           let a = item.payload.toJSON();
           a['$key'] = item.key;
-          this.BookData.push(a as Book)
+          this.MatchData.push(a as Match)
         })
         /* Data table */
-        this.dataSource = new MatTableDataSource(this.BookData);
+        this.dataSource = new MatTableDataSource(this.MatchData);
         /* Pagination */
         setTimeout(() => {
           this.dataSource.sort = this.sort;
@@ -61,7 +58,7 @@ export class BookListComponent implements OnInit{
   }
 
   openAddDialog() {
-    const dialogRef = this.dialog.open(AddBookComponent);
+    const dialogRef = this.dialog.open(AddMatchComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -70,7 +67,7 @@ export class BookListComponent implements OnInit{
 
   openEditDialog(e) {
     this.dataService.setData(e);
-    const dialogRef = this.dialog.open(EditBookComponent);
+    const dialogRef = this.dialog.open(EditMatchComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -78,7 +75,7 @@ export class BookListComponent implements OnInit{
   }
 
   /* Delete */
-  deleteBook(index: number, e){
+  deleteMatch(index: number, e){
     if(window.confirm('Are you sure?')) {
       const data = this.dataSource.data;
       
@@ -88,7 +85,7 @@ export class BookListComponent implements OnInit{
       
       data.splice((this.paginator.pageIndex * this.paginator.pageSize) + index, 1);
       this.dataSource.data = data;
-      this.bookApi.DeleteBook(e.$key)
+      this.matchApi.DeleteMatch(e.$key)
     }
   }
 }
