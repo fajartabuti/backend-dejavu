@@ -26,6 +26,7 @@ export class EditMatchComponent implements OnInit {
   snapshot: Observable<any>;
   downloadURL: Observable<string>;
   public selected: any;
+  public selectedRadio: any;
   data = this.dataService.getData();   
   visible = true;
   selectable = true;
@@ -37,6 +38,7 @@ export class EditMatchComponent implements OnInit {
   selectedBindingType: string;
   editMatchForm: FormGroup;
   MatchType: any = ['Tournament', 'Scrim'];
+  DivisionType: any = ['CODM', 'ML', 'PES'];
   path: string;
 
   ngOnInit() {
@@ -58,6 +60,7 @@ export class EditMatchComponent implements OnInit {
         // this.languageArray = data.languages;
         this.editMatchForm.setValue(data);
         this.selected = data.match_type;
+        this.selectedRadio = data.division;
       })
     }
   }
@@ -65,6 +68,7 @@ export class EditMatchComponent implements OnInit {
   updateMatchForm(){
     this.editMatchForm = this.fb.group({
       match_type: ['', [Validators.required]],
+      division: ['', [Validators.required]],
       match_title: ['', [Validators.required]],
       match_date: ['', [Validators.required]],
       rival_logo: [''],

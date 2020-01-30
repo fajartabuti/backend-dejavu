@@ -16,6 +16,17 @@
               </mat-error>
             </mat-form-field>
 
+            <!-- Division Type -->
+            <div><mat-label>Division</mat-label></div>
+            <div>
+              <mat-radio-group [(ngModel)]="selectedRadio" formControlName="division">
+                <mat-radio-button *ngFor="let divisionType of DivisionType" [value]="divisionType">{{divisionType}}</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="handleError('division', 'required')">
+                Division is required
+              </mat-error>
+            </div>
+
             <!-- Match title -->
             <mat-form-field class="example-full-width">
               <input matInput placeholder="Match title" formControlName="match_title">

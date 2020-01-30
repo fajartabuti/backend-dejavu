@@ -22,6 +22,7 @@ export class MatchListComponent implements OnInit{
   displayedColumns: any[] = [
     // '$key',
     'match_date',
+    'division',
     'match_type',
     'match_title',
     'action'

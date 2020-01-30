@@ -15,6 +15,7 @@ export class MatchService {
   AddMatch(match: Match) {
     this.matchesRef.push({
       match_type: match.match_type,
+      division: match.division,
       match_title: match.match_title,
       match_date: match.match_date,
       rival_logo: match.rival_logo,
@@ -38,6 +39,7 @@ export class MatchService {
   UpdateMatch(match: Match) {
     this.matchRef.update({
       match_type: match.match_type,
+      division: match.division,
       match_title: match.match_title,
       match_date: match.match_date, 
       rival_logo: match.rival_logo,

@@ -21,6 +21,7 @@ export class AddMatchComponent implements OnInit {
   snapshot: Observable<any>;
   downloadURL: Observable<string>;
   public selected: any;
+  public selectedRadio: any = 'CODM';
   visible = true;
   selectable = true;
   removable = true;
@@ -30,7 +31,9 @@ export class AddMatchComponent implements OnInit {
   @ViewChild('resetMatchForm', {static: false}) myNgForm;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   selectedBindingType: string;
-  matchForm: FormGroup;MatchType: any = ['Tournament', 'Scrim'];
+  matchForm: FormGroup;
+  MatchType: any = ['Tournament', 'Scrim'];
+  DivisionType: any = ['CODM', 'ML', 'PES'];
   path: string;
 
   ngOnInit() { 
@@ -48,6 +51,7 @@ export class AddMatchComponent implements OnInit {
   submitMatchForm() {
     this.matchForm = this.fb.group({
       match_type: ['', [Validators.required]],
+      division: ['', [Validators.required]],
       match_title: ['', [Validators.required]],
       match_date: ['', [Validators.required]],
       rival_logo: [''],

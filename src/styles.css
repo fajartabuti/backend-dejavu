@@ -15,7 +15,7 @@ form{margin-right: 30px}
 .header{position:sticky;position:-webkit-sticky;top:0;z-index:1000;}
 mat-sidenav mat-icon{margin-right:12px;}
 .hamburger{margin-top:5px;cursor:pointer;}
-.mat-radio-button,.mat-radio-group{margin-right:25px;}
+.mat-radio-button,.mat-radio-group{margin-right:100%; padding-bottom: 10px;}
 .controlers-wrapper>*{width:100%;padding-bottom:10px;}
 .misc-bottom-padding{margin:8px 0 10px;}
 .misc-bottom-padding mat-label{margin-right:15px;}
