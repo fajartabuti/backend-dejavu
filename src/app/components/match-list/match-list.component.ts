@@ -19,6 +19,7 @@ export class MatchListComponent implements OnInit{
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   MatchData: any = [];
+  UserData: any = JSON.parse(localStorage.currentUser);
   displayedColumns: any[] = [
     // '$key',
     'match_date',
