@@ -46,9 +46,31 @@
                 Match date is required
               </mat-error>
             </mat-form-field>
+            
+            <!-- Match time -->
+            <!-- <mat-form-field class="example-full-width" style="width: 50px;">
+              <mat-label>Hour</mat-label>
+              <input matInput placeholder="22" formControlName="match_hour">
+              <mat-error *ngIf="handleError('match_hour', 'required')">
+                Input<strong> match hour</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <span style="margin: 10px;">:</span> -->
+
+            <!-- Match minute -->
+            <!-- <mat-form-field class="example-full-width" style="width: 50px;">
+              <mat-label>Minute</mat-label>
+              <input matInput placeholder="00" formControlName="match_min">
+              <mat-error *ngIf="handleError('match_min', 'required')">
+                Input<strong> match minute</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <span style="margin: 10px;">WIB</span> -->
 
             <!-- Rival logo -->
-            <mat-form-field appearance="outline" *ngIf="selected == 'Scrim'">
+            <mat-form-field appearance="outline" *ngIf="selected == 'Scrim'" style="margin-top: 30px;">
               <mat-label>upload rival logo</mat-label>
               <ngx-mat-file-input [accept]="'.jpg,.png,.jpeg'" #removableInput formControlName="rival_logo" (change)="startUpload($event.target.files)">
               </ngx-mat-file-input>

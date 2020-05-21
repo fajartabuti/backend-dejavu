@@ -38,7 +38,7 @@ export class EditMatchComponent implements OnInit {
   selectedBindingType: string;
   editMatchForm: FormGroup;
   MatchType: any = ['Tournament', 'Scrim'];
-  DivisionType: any = ['CODM', 'ML', 'PES'];
+  DivisionType: any = ['CODM', 'ML', 'PUBGM', 'PES'];
   path: string;
 
   ngOnInit() {

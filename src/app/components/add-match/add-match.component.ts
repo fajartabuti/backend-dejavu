@@ -33,7 +33,7 @@ export class AddMatchComponent implements OnInit {
   selectedBindingType: string;
   matchForm: FormGroup;
   MatchType: any = ['Tournament', 'Scrim'];
-  DivisionType: any = ['CODM', 'ML', 'PES'];
+  DivisionType: any = ['CODM', 'ML', 'PUBGM', 'PES'];
   path: string;
 
   ngOnInit() { 
@@ -54,6 +54,8 @@ export class AddMatchComponent implements OnInit {
       division: ['', [Validators.required]],
       match_title: ['', [Validators.required]],
       match_date: ['', [Validators.required]],
+      // match_hour: ['', [Validators.required]],
+      // match_min: ['', [Validators.required]],
       rival_logo: [''],
       logo_id: ['']
     })
@@ -107,6 +109,7 @@ export class AddMatchComponent implements OnInit {
   }
 
   submitMatch() {
+    console.log(this.matchForm.value)
     this.matchForm.value.rival_logo = (this.selected == 'Scrim') ? this.downloadURL : '';
     this.matchForm.value.logo_id = (this.selected == 'Scrim') ? this.path : '';
     if (this.matchForm.valid) {

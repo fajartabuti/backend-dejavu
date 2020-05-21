@@ -1,7 +1,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";html,body{height:100%;}
 
 body{margin:0;font-family:'Roboto', sans-serif;}
-form{margin-right: 30px}
 .header{justify-content:space-between;}
 .user-profile{margin-left:15px;}
 .mat-sidenav-container{height:100%;display:flex;flex:1 1 auto;}
